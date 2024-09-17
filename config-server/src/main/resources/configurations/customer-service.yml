@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      username: Haythem
+      password: Haythem12345
+      host: locahost
+      port: 64000
+      database: customer
+      authentication-database: admin
+
+server:
+  port: 8090
