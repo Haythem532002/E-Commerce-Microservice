@@ -1,13 +1,30 @@
 package haythem.ecommerce.product;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import haythem.ecommerce.category.Category;
+import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class Product {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     Integer id;
+    String name;
+    String description;
+    double availableQuantity;
+    BigDecimal price;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonBackReference
+    Category category;
 }
