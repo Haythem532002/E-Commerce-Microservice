@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: postgres
+    password: haythem
+    url: jdbc:postgresql://localhost:5432/order
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+server:
+  port: 8070
+
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers
+    product-url: http://localhost:8222/api/v1/products
+    payments-url: http://localhost:8222/api/v1/payments

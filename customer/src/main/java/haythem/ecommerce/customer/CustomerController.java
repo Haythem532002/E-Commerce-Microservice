@@ -9,15 +9,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final CustomerRepository customerRepository;
 
     @PostMapping
     public ResponseEntity<String> createCustomer(
-            @RequestBody  @Valid CustomerRequest request
+            @RequestBody @Valid CustomerRequest request
     ) {
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
@@ -42,7 +41,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.existsById(id));
     }
 
-    @GetMapping("/exist/{customer-id}")
+    @GetMapping("/{customer-id}")
     public ResponseEntity<CustomerResponse> findById(
             @PathVariable("customer-id") String id
     ) {

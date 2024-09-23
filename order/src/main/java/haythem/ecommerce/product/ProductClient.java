@@ -1,0 +1,45 @@
+package haythem.ecommerce.product;
+
+import haythem.ecommerce.exception.BusinessException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpMethod.POST;
+
+@Service
+@RequiredArgsConstructor
+public class ProductClient {
+
+    private final RestTemplate restTemplate;
+    @Value("${application.config.product-url}")
+    private String productUrl;
+
+    public List<purchaseResponse> purchaseProducts(List<PurchaseRequest> requestBody) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        HttpEntity<List<PurchaseRequest>> requestEntity = new HttpEntity<>(
+                requestBody, headers
+        );
+        ParameterizedTypeReference<List<purchaseResponse>> responseType = new ParameterizedTypeReference<>() {
+        };
+        ResponseEntity<List<purchaseResponse>> responseEntity = restTemplate.exchange(
+                productUrl + "/purchase",
+                POST,
+                requestEntity,
+                responseType
+        );
+        if (responseEntity.getStatusCode().isError())
+            throw new BusinessException("An error occurred while processing the purchase");
+        return responseEntity.getBody();
+    }
+}
