@@ -2,7 +2,7 @@ package haythem.ecommerce.product;
 
 import java.math.BigDecimal;
 
-public record purchaseResponse(
+public record PurchaseResponse(
         Integer id,
         String name,
         String description,

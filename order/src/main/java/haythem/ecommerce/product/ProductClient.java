@@ -24,7 +24,7 @@ public class ProductClient {
     @Value("${application.config.product-url}")
     private String productUrl;
 
-    public List<purchaseResponse> purchaseProducts(List<PurchaseRequest> requestBody) {
+    public List<PurchaseResponse> purchaseProducts(List<PurchaseRequest> requestBody) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(CONTENT_TYPE, APPLICATION_JSON);
         HttpEntity<List<PurchaseRequest>> requestEntity = new HttpEntity<>(
@@ -32,7 +32,7 @@ public class ProductClient {
         );
         ParameterizedTypeReference<List<purchaseResponse>> responseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<purchaseResponse>> responseEntity = restTemplate.exchange(
+        ResponseEntity<List<PurchaseResponse>> responseEntity = restTemplate.exchange(
                 productUrl + "/purchase",
                 POST,
                 requestEntity,
