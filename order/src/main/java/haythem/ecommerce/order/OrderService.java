@@ -1,11 +1,14 @@
 package haythem.ecommerce.order;
 
 import haythem.ecommerce.customer.CustomerClient;
+import haythem.ecommerce.customer.CustomerResponse;
 import haythem.ecommerce.exception.BusinessException;
 import haythem.ecommerce.kafka.OrderConfirmation;
 import haythem.ecommerce.kafka.OrderProducer;
 import haythem.ecommerce.orderline.OrderLineRequest;
 import haythem.ecommerce.orderline.OrderLineService;
+import haythem.ecommerce.payment.PaymentClient;
+import haythem.ecommerce.payment.PaymentRequest;
 import haythem.ecommerce.product.ProductClient;
 import haythem.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +27,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
 
     public Integer createOrder(OrderRequest orderRequest) {
@@ -51,6 +55,14 @@ public class OrderService {
         }
 
         //start payment process
+        paymentClient.requestOrderPayment(new PaymentRequest(
+                orderRequest.amount(),
+                orderRequest.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        ));
+
 
         //send the order confirmation --> Notification Microservice using (Kafka)
         orderProducer.sendOrderConfirmation(new OrderConfirmation(
