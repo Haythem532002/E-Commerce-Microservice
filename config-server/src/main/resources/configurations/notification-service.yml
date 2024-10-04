@@ -3,8 +3,8 @@ spring:
     mongodb:
       username: Haythem
       password: Haythem12345
-      host: locahost
-      port: 64001
+      host: localhost
+      port: 64000
       database: notification
       authentication-database: admin
   kafka:

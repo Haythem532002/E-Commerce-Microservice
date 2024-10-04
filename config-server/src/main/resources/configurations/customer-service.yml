@@ -3,7 +3,7 @@ spring:
     mongodb:
       username: Haythem
       password: Haythem12345
-      host: locahost
+      host: localhost
       port: 64000
       database: customer
       authentication-database: admin
